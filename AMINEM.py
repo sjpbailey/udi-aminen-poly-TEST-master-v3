@@ -100,6 +100,26 @@ def poll(polltype):
         ustdy_count = 0
         prevs_count = 0
         sumss_count = 0
+    
+    if amiem_resp is not None:
+        amiem_root = ET.fromstring(amiem_resp)
+
+        #amiem_count = float(amiem_root('instantaneousDemand'))
+        for amie in amiem_root.iter('instantaneousDemand'):
+            amiem_count = float(amie.text) 
+            LOGGER.info("kW: " + str(amiem_count/float(mult)))
+
+            amiem_count1 = float(amiem_root.iter('instantaneousDemand'))
+            LOGGER.info("WATTS: " + str(amiem_count1))
+
+            ustdy_count = float(amiem_root.iter('currDayDelivered'))
+            LOGGER.info("kWh: " + str(ustdy_count))
+
+            prevs_count = float(amiem_root.iter('previousDayDelivered'))
+            LOGGER.info("kWh: " + str(prevs_count))
+
+            sumss_count = float(amiem_root.iter('currSumDelivered'))  #.text
+            LOGGER.info("kWh: " + str(sumss_count))    
 
 '''
 When we are told to stop, we update the node's status to False.  Since
@@ -129,26 +149,6 @@ if __name__ == "__main__":
         polyglot.setCustomParamsDoc()
         polyglot.updateProfile()
 
-
-    if amiem_resp is not None:
-        amiem_root = ET.fromstring(amiem_resp)
-
-        #amiem_count = float(amiem_root('instantaneousDemand'))
-        for amie in amiem_root.iter('instantaneousDemand'):
-            amiem_count = float(amie.text) 
-            LOGGER.info("kW: " + str(amiem_count/float(mult)))
-
-            amiem_count1 = float(amiem_root.iter('instantaneousDemand'))
-            LOGGER.info("WATTS: " + str(amiem_count1))
-
-            ustdy_count = float(amiem_root.iter('currDayDelivered'))
-            LOGGER.info("kWh: " + str(ustdy_count))
-
-            prevs_count = float(amiem_root.iter('previousDayDelivered'))
-            LOGGER.info("kWh: " + str(prevs_count))
-
-            sumss_count = float(amiem_root.iter('currSumDelivered'))  #.text
-            LOGGER.info("kWh: " + str(sumss_count))    
         '''
         Here we create the device node.  In a real node server we may
         want to try and discover the device or devices and create nodes
