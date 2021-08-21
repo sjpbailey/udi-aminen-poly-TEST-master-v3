@@ -1,5 +1,5 @@
-ND-test-NAME = Example - Net Energy Meter
-ND-test-ICON = Output
+ND-aminemnode-NAME = Net Energy Meter
+ND-aminemnode-ICON = Output
 ST-str-ST-NAME = NodeServer Online
 ST-ctl-CC-NAME = Instaneous Demand kW
 ST-ctl-GV21-NAME = -

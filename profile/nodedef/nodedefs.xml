@@ -1,5 +1,5 @@
 <nodeDefs>
-  <nodeDef id="test" nodeType="139" nls="str">
+  <nodeDef id="aminemnode" nodeType="139" nls="ctl">
     <sts>
       <st id="ST" editor="bool" />
       <st id="CC" editor="CC1" />

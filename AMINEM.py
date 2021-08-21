@@ -18,13 +18,14 @@ Parameters = None
 n_queue = []
 count = 0
 
+
 '''
 TestNode is the device class.  Our simple counter device
 holds two values, the count and the count multiplied by a user defined
 multiplier. These get updated at every shortPoll interval
 '''
 class AmiNemNode(udi_interface.Node):
-    id = 'test'
+    id = 'aminemnode'
     drivers = [
             {'driver': 'ST', 'value': 1, 'uom': 2},
             #{'driver': 'GV0', 'value': 0, 'uom': 56},
@@ -74,7 +75,8 @@ the user defined value in GV1. Then display a notice on the dashboard.
 def poll(polltype):
     global count
     global Parameters
-    self.isy = ISY(poly)
+    self.poly = poly
+    self.isy = ISY('poly')
 
     if 'shortPoll' in polltype:
         if Parameters['multiplier'] is not None:
