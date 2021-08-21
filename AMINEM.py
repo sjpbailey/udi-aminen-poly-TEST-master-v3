@@ -28,8 +28,6 @@ class AmiNemNode(udi_interface.Node):
     id = 'aminemnode'
     drivers = [
             {'driver': 'ST', 'value': 1, 'uom': 2},
-            #{'driver': 'GV0', 'value': 0, 'uom': 56},
-            #{'driver': 'GV1', 'value': 0, 'uom': 56},
             {'driver': 'GPV', 'value': 0, 'uom': 2},
             {'driver': 'CC', 'value': 0, 'uom': 30},
             {'driver': 'GV1', 'value': 0, 'uom': 73},
@@ -81,24 +79,14 @@ class isy(udi_interface.ISY):
 def poll(polltype):
     global count
     global Parameters
-    self.poly = poly
-    self.isy = ISY(poly)
+    #self.poly = poly
+    self.isy = ISY()
 
     if 'shortPoll' in polltype:
         if Parameters['multiplier'] is not None:
             mult = int(Parameters['multiplier'])
         else:
             mult = 1
-
-        #node = polyglot.getNode('my_address')
-        #if node is not None:
-        #    count += 1
-
-        #    node.setDriver('GV0', count, True, True)
-        #    node.setDriver('GV1', (count * mult), True, True)
-
-            # be fancy and display a notice on the polyglot dashboard
-        #    polyglot.Notices['count'] = 'Current count is {}'.format(count)
         
         amiem_resp = polyglot.getNode('/rest/emeter')         #node.isy.cmd("/rest/emeter")
         amiem_count = 0
