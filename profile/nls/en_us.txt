@@ -1,6 +1,6 @@
 ND-aminemnode-NAME = Net Energy Meter
 ND-aminemnode-ICON = Electricity
-ST-str-ST-NAME = NodeServer Online
+#ST-ctl-ST-NAME = NodeServer Online
 ST-ctl-CC-NAME = Instaneous Demand kW
 ST-ctl-GV21-NAME = -
 ST-ctl-TPW-NAME = Kilo Watt Hours Delivered Today
@@ -13,4 +13,4 @@ ST-ctl-GV1-NAME = Instantaneous Demand Watts
 ST-ctl-GV26-NAME = -
 ST-ctl-GV27-NAME = -
 ST-ctl-GV3-NAME = Kilo Watt Hours Delivered Sum Total#
-CMD-str-DISCOVER-NAME = Re-Discover
+CMD-ctl-DISCOVER-NAME = Re-Discover
