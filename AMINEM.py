@@ -74,7 +74,7 @@ the user defined value in GV1. Then display a notice on the dashboard.
 def poll(polltype):
     global count
     global Parameters
-    self.isy = ISY()
+    self.isy = ISY(poly)
 
     if 'shortPoll' in polltype:
         if Parameters['multiplier'] is not None:

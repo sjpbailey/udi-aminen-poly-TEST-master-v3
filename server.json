@@ -1,6 +1,6 @@
 {
     "name": "AMINEM",
-    "docs": "https://github.com/UniversalDevicesInc/udi-example1-poly/README.md",
+    "docs": "https://github.com/sjpbailey/udi-aminen-poly-TEST-master-v3/README.md",
     "type": "python3",
     "executable": "AMINEM.py",
     "install": "install.sh",
@@ -19,8 +19,8 @@
     		"author": "Steven Bailey",
     		"version": "1.0.0",
     		"date": "August 20, 2021",
-    		"source": "https://github.com/UniversalDevicesInc/udi-example1-poly",
-			"license": "https://github.com/UniversalDevicesInc/udi-example1-poly/LICENSE"
+    		"source": "https://github.com/sjpbailey/udi-aminen-poly-TEST-master-v3",
+			"license": "https://github.com/sjpbailey/udi-aminen-poly-TEST-master-v3/LICENSE"
 		}
 	],
 	"store" : {
