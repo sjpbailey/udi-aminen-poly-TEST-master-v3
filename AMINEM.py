@@ -125,8 +125,8 @@ we don't have a 'controller', we have to do this ourselves.
         nodes[n].setDriver('ST', 0, True, True)
     polyglot.stop()
 
-    if __name__ == "__main__":
-    try:
+if __name__ == "__main__":
+try:
         polyglot = udi_interface.Interface([])
         polyglot.start()
 
