@@ -36,7 +36,7 @@ class AmiNemNode(udi_interface.Node):
             {'driver': 'GV3', 'value': 0, 'uom': 33},
             ]
 
-    def noop(self):
+    def noop(self, command):
         LOGGER.info('Discover not implemented')
 
     commands = {'DISCOVER': noop}
@@ -80,7 +80,7 @@ def poll(polltype):
     global count
     global Parameters
     #self.poly = poly
-    self.isy = ISY()
+    self.isy = ISY(poly)
 
     if 'shortPoll' in polltype:
         if Parameters['multiplier'] is not None:
