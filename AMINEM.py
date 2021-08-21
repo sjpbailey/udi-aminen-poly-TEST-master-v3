@@ -89,8 +89,8 @@ def poll(polltype):
             # be fancy and display a notice on the polyglot dashboard
         #    polyglot.Notices['count'] = 'Current count is {}'.format(count)
 
-        amiem_resp = self.isy.cmd("/rest/emeter")
-        LOGGER.info(self.isy.cmd("/rest/emeter"))
+        amiem_resp = isy.cmd("/rest/emeter")
+        LOGGER.info(amiem_resp)
         amiem_count = 0
         amiem_count1 = 0
         ustdy_count = 0
