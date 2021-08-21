@@ -22,7 +22,7 @@ holds two values, the count and the count multiplied by a user defined
 multiplier. These get updated at every shortPoll interval
 '''
 class TestNode(udi_interface.Node):
-    id = 'test'
+    id = 'aminemnode'
     drivers = [
             {'driver': 'ST', 'value': 1, 'uom': 2},
             {'driver': 'GV0', 'value': 0, 'uom': 56},
