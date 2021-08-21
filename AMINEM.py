@@ -8,6 +8,7 @@ MIT License
 import udi_interface
 import sys
 import time
+import xml.etree.ElementTree as ET
 
 LOGGER = udi_interface.LOGGER
 Custom = udi_interface.Custom
@@ -78,15 +79,23 @@ def poll(polltype):
         else:
             mult = 1000
 
-        node = polyglot.getNode('my_address')
-        if node is not None:
-            count += 1
+        #node = polyglot.getNode('my_address')
+        #if node is not None:
+        #    count += 1
 
-            node.setDriver('GV0', count, True, True)
-            node.setDriver('GV1', (count * mult), True, True)
+        #    node.setDriver('GV0', count, True, True)
+        #    node.setDriver('GV1', (count * mult), True, True)
 
             # be fancy and display a notice on the polyglot dashboard
-            polyglot.Notices['count'] = 'Current count is {}'.format(count)
+        #    polyglot.Notices['count'] = 'Current count is {}'.format(count)
+
+        amiem_resp = self.isy.cmd("/rest/emeter")
+        LOGGER.info(self.isy.cmd("/rest/emeter"))
+        amiem_count = 0
+        amiem_count1 = 0
+        ustdy_count = 0
+        prevs_count = 0
+        sumss_count = 0
 
 
 '''
@@ -123,7 +132,7 @@ if __name__ == "__main__":
         based on what we find.  Here, we simply create our node and wait
         for the add to complete.
         '''
-        node = TestNode(polyglot, 'my_address', 'my_address', 'Counter')
+        node = AmiNemNode(polyglot, 'my_address', 'my_address', 'NetEnergyMeter')
         polyglot.addNode(node)
         wait_for_node_event()
 
