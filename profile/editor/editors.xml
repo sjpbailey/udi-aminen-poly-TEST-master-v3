@@ -1,0 +1,30 @@
+<editors>
+	<!-- Boolean -->
+	<editor id="bool">
+		<range uom="2" subset="0,1" />
+	</editor>
+
+	<editor id="raw">
+		<range uom="56" min="-10000" max="10000" prec="0" /> 
+	</editor>
+
+	<editor id="CC1">
+        <range uom="30" min="-1000000" max="1000000" prec="1"/>
+    </editor>
+    
+    <editor id="WATT">
+        <range uom="73" min="-1000000" max="1000000" prec="1"/>
+    </editor>
+    
+    <editor id="KWH">
+        <range uom="33" min="-1000000000" max="1000000000" prec="1"/>
+        </editor>
+    
+    <editor id="RAWVAL">
+        <range uom="56" min="0" max="100000" prec="0" />
+    </editor>
+    
+    <editor id="covt">
+        <range uom="56" min="10" max="100000" step="1" prec="1"/>
+    </editor>
+</editors>

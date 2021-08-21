@@ -1,0 +1,26 @@
+<nodeDefs>
+  <nodeDef id="test" nodeType="139" nls="str">
+    <sts>
+      <st id="ST" editor="bool" />
+      <st id="CC" editor="CC1" />
+      <st id="GV1" editor="WATT" />
+      <st id="GV21" editor="RAWVAL" />
+      <st id="TPW" editor="KWH" />
+      <st id="GV22" editor="RAWVAL" />
+      <st id="GV23" editor="RAWVAL" />
+      <st id="GV2" editor="KWH" />
+      <st id="GV24" editor="RAWVAL" />
+      <st id="GV25" editor="RAWVAL" />
+      <st id="GV3" editor="KWH" />
+      <st id="GV26" editor="RAWVAL" />
+      <st id="GV27" editor="RAWVAL" />
+	</sts>
+    <cmds>
+      <sends />
+      <accepts>
+        <cmd id="DISCOVER" />
+      </accepts>
+    </cmds>
+  </nodeDef>
+</nodeDefs>
+

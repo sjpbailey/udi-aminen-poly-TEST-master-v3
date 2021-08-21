@@ -1,0 +1,33 @@
+{
+    "name": "AMINEM",
+    "docs": "https://github.com/UniversalDevicesInc/udi-example1-poly/README.md",
+    "type": "python3",
+    "executable": "AMINEM.py",
+    "install": "install.sh",
+    "description": "Net Energy Meter Utility Meter Smart Meter Landis+Gy & Oncor",
+    "notice": "",
+    "shortPoll": "60",
+    "longPoll": "600",
+	"logLevel": "WARNING",
+    "profile_version": "1.0.0",
+	"customParams": {
+		"multiplier": 1000
+	},
+    "credits": [
+    	{
+    		"title": "Net Energy Meter",
+    		"author": "Steven Bailey",
+    		"version": "1.0.0",
+    		"date": "August 20, 2021",
+    		"source": "https://github.com/UniversalDevicesInc/udi-example1-poly",
+			"license": "https://github.com/UniversalDevicesInc/udi-example1-poly/LICENSE"
+		}
+	],
+	"store" : {
+		"developer": "sjpbailey1961@gmail.com",
+		"price": 0.00,
+		"recurring": 0,
+		"recurring_interval": "month",
+		"recurring_period": 0
+	}
+}
