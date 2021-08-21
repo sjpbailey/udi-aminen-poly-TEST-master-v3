@@ -87,8 +87,14 @@ def poll(polltype):
             mult = int(Parameters['multiplier'])
         else:
             mult = 1
+        node.setDriver('CC', amiem_count/float(mult))
+        node.setDriver('GV1', amiem_count1/float(mult)*1000)
+        node.setDriver('TPW', ustdy_count/float(mult))
+        node.setDriver('GV2', prevs_count/float(mult))
+        node.setDriver('GV3', sumss_count/float(mult))
         
-        amiem_resp = polyglot.getNode('/rest/emeter')         #node.isy.cmd("/rest/emeter")
+        #amiem_resp = polyglot.getNode('/rest/emeter')         #node.isy.cmd("/rest/emeter")
+        amiem_resp = self.isy.cmd("/rest/emeter")
         amiem_count = 0
         amiem_count1 = 0
         ustdy_count = 0
@@ -96,30 +102,8 @@ def poll(polltype):
         sumss_count = 0
         
         
-    if amiem_resp is not None:
-        amiem_root = ET.fromstring(amiem_resp)
-
-        #amiem_count = float(amiem_root('instantaneousDemand'))
-        for amie in amiem_root.iter('instantaneousDemand'):
-            amiem_count = float(amie.text) 
-            LOGGER.info("kW: " + str(amiem_count/float(mult)))
-            node.setDriver('CC', amiem_count/float(mult))
-
-            amiem_count1 = float(amiem_root.iter('instantaneousDemand'))
-            LOGGER.info("WATTS: " + str(amiem_count1))
-            node.setDriver('GV1', amiem_count1/float(mult)*1000)
-            
-            ustdy_count = float(amiem_root.iter('currDayDelivered'))
-            LOGGER.info("kWh: " + str(ustdy_count))
-            node.setDriver('TPW', ustdy_count/float(mult))
-            
-            prevs_count = float(amiem_root.iter('previousDayDelivered'))
-            LOGGER.info("kWh: " + str(prevs_count))
-            node.setDriver('GV2', prevs_count/float(mult))
-            
-            sumss_count = float(amiem_root.iter('currSumDelivered'))  #.text
-            LOGGER.info("kWh: " + str(sumss_count))
-            node.setDriver('GV3', sumss_count/float(mult))        
+    
+                    
 
 
 '''
@@ -150,6 +134,26 @@ if __name__ == "__main__":
         polyglot.setCustomParamsDoc()
         polyglot.updateProfile()
 
+
+    if amiem_resp is not None:
+        amiem_root = ET.fromstring(amiem_resp)
+
+        #amiem_count = float(amiem_root('instantaneousDemand'))
+        for amie in amiem_root.iter('instantaneousDemand'):
+            amiem_count = float(amie.text) 
+            LOGGER.info("kW: " + str(amiem_count/float(mult)))
+
+            amiem_count1 = float(amiem_root.iter('instantaneousDemand'))
+            LOGGER.info("WATTS: " + str(amiem_count1))
+
+            ustdy_count = float(amiem_root.iter('currDayDelivered'))
+            LOGGER.info("kWh: " + str(ustdy_count))
+
+            prevs_count = float(amiem_root.iter('previousDayDelivered'))
+            LOGGER.info("kWh: " + str(prevs_count))
+
+            sumss_count = float(amiem_root.iter('currSumDelivered'))  #.text
+            LOGGER.info("kWh: " + str(sumss_count))    
         '''
         Here we create the device node.  In a real node server we may
         want to try and discover the device or devices and create nodes
