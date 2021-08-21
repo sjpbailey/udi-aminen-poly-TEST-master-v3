@@ -84,7 +84,7 @@ def poll(polltype):
         else:
             mult = 1
 
-        node = polyglot.getNode('my_address')
+        #node = polyglot.getNode('my_address')
         #if node is not None:
         #    count += 1
 
@@ -94,7 +94,7 @@ def poll(polltype):
             # be fancy and display a notice on the polyglot dashboard
         #    polyglot.Notices['count'] = 'Current count is {}'.format(count)
         
-        amiem_resp = node.isy.cmd("/rest/emeter")
+        amiem_resp = polyglot.getNode('/rest/emeter')         #node.isy.cmd("/rest/emeter")
         amiem_count = 0
         amiem_count1 = 0
         ustdy_count = 0
@@ -162,7 +162,7 @@ if __name__ == "__main__":
         based on what we find.  Here, we simply create our node and wait
         for the add to complete.
         '''
-        node = AmiNemNode(polyglot, 'my_address', 'my_address', 'Counter')
+        node = AmiNemNode(polyglot, 'my_address', 'my_address', 'NetEnergyMeter')
         polyglot.addNode(node)
         wait_for_node_event()
 

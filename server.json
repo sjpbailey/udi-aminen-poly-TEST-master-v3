@@ -8,7 +8,7 @@
     "notice": "",
     "shortPoll": "60",
     "longPoll": "600",
-	"logLevel": "WARNING",
+	"logLevel": "INFO",
     "profile_version": "1.0.0",
 	"customParams": {
 		"multiplier": 1000
