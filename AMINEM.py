@@ -71,15 +71,15 @@ count, report the current count in GV0 and the current count multiplied by
 the user defined value in GV1. Then display a notice on the dashboard.
 '''
 class isy(udi_interface.ISY):
-        def __init__(self, poly,):
-            self.isy = ISY(self.poly)
-            isy = udi_interface.ISY()
-            #pass
+def __init__(self, poly,):
+    self.isy = ISY(self.poly)
+    isy = udi_interface.ISY()
+    #pass
 
 def poll(polltype):
     global count
     global Parameters
-    #self.poly = poly
+    self.poly = poly
     self.isy = ISY(poly)
 
     if 'shortPoll' in polltype:
@@ -100,11 +100,6 @@ def poll(polltype):
         ustdy_count = 0
         prevs_count = 0
         sumss_count = 0
-        
-        
-    
-                    
-
 
 '''
 When we are told to stop, we update the node's status to False.  Since
