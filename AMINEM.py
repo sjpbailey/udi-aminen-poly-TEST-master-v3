@@ -76,7 +76,7 @@ def poll(polltype):
     global count
     global Parameters
     self.poly = poly
-    self.isy = ISY('poly')
+    self.isy = ISY(poly)
 
     if 'shortPoll' in polltype:
         if Parameters['multiplier'] is not None:
