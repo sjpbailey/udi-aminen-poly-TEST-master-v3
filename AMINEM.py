@@ -18,12 +18,6 @@ Parameters = None
 n_queue = []
 count = 0
 
-
-'''
-TestNode is the device class.  Our simple counter device
-holds two values, the count and the count multiplied by a user defined
-multiplier. These get updated at every shortPoll interval
-'''
 class AmiNemNode(udi_interface.Node):
     id = 'aminemnode'
     drivers = [
@@ -47,10 +41,10 @@ for a node to be created.  The nodeAdd() API call is asynchronous and
 will return before the node is fully created. Using this, we can wait
 until it is fully created before we try to use it.
 '''
-def node_queue(data):
-    n_queue.append(data['address'])
+    def node_queue(data):
+        n_queue.append(data['address'])
 
-def wait_for_node_event():
+    def wait_for_node_event():
     while len(n_queue) == 0:
         time.sleep(0.1)
     n_queue.pop()
@@ -59,7 +53,7 @@ def wait_for_node_event():
 Read the user entered custom parameters. In this case, it is just
 the 'multiplier' value.  Save the parameters in the global 'Parameters'
 '''
-def parameterHandler(params):
+    def parameterHandler(params):
     global Parameters
 
     Parameters.load(params)
@@ -70,13 +64,13 @@ This is where the real work happens.  When we get a shortPoll, increment the
 count, report the current count in GV0 and the current count multiplied by
 the user defined value in GV1. Then display a notice on the dashboard.
 '''
-class isy(udi_interface.ISY):
-def __init__(self, poly,):
+    class isy(udi_interface.ISY):
+    def __init__(self, poly,):
     self.isy = ISY(self.poly)
     isy = udi_interface.ISY()
     #pass
 
-def poll(polltype):
+    def poll(polltype):
     global count
     global Parameters
     self.poly = poly
@@ -125,13 +119,13 @@ def poll(polltype):
 When we are told to stop, we update the node's status to False.  Since
 we don't have a 'controller', we have to do this ourselves.
 '''
-def stop():
+    def stop():
     nodes = polyglot.getNodes()
     for n in nodes:
         nodes[n].setDriver('ST', 0, True, True)
     polyglot.stop()
 
-if __name__ == "__main__":
+    if __name__ == "__main__":
     try:
         polyglot = udi_interface.Interface([])
         polyglot.start()
