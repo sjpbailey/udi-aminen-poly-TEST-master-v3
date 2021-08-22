@@ -1,5 +1,5 @@
-ND-aminemnode-NAME = Net Energy Meter
-ND-aminemnode-ICON = Electricity
+ND-controller-NAME = Net Energy Meter
+ND-controller-ICON = Electricity
 #ST-ctl-ST-NAME = NodeServer Online
 ST-ctl-CC-NAME = Instaneous Demand kW
 ST-ctl-GV21-NAME = -
