@@ -1,0 +1,158 @@
+
+
+import udi_interface
+import sys
+import time
+import urllib3
+import xml.etree.ElementTree as ET
+
+LOGGER = udi_interface.LOGGER
+LOG_HANDLER = udi_interface.LOG_HANDLER
+Custom = udi_interface.Custom
+ISY = udi_interface.ISY 
+
+LOG_HANDLER.set_log_format('%(asctime)s %(threadName)-10s %(name)-18s %(levelname)-8s %(module)s:%(funcName)s: %(message)s')
+
+class AmiNemController(udi_interface.Node):
+    def __init__(self, polyglot, primary, address, name):
+        super(AmiNemController, self).__init__(polyglot, primary, address, name)
+        self.poly = polyglot
+        self.name = 'AMI NEM Controller'  # override what was passed in
+        self.hb = 0
+        self.Parameters = Custom(polyglot, 'customparams')
+        self.Notices = Custom(polyglot, 'notices')
+        self.poly.subscribe(self.poly.START, self.start, address)
+        self.poly.subscribe(self.poly.CUSTOMPARAMS, self.parameterHandler)
+        self.poly.subscribe(self.poly.POLL, self.poll)
+        self.poly.ready()
+        self.poly.addNode(self)
+        # Attributes
+        self.user = None
+        self.password = None
+        self.isy_ip = None
+        self.nem_oncor = None
+        self.isy = ISY(self.poly)
+
+    def parameterHandler(self, params):
+        self.Parameters.load(params)
+        LOGGER.debug('Loading parameters now')
+        self.check_params()    
+
+    def start(self):
+        #self.poly.updateProfile()
+        self.discover()
+
+    def discover(self, *args, **kwargs):
+        amiem_resp = self.isy.cmd("/rest/emeter")
+        amiem_count = 0
+        amiem_count1 = 0
+        ustdy_count = 0
+        prevs_count = 0
+        sumss_count = 0
+
+        if amiem_resp is not None:
+            amiem_root = ET.fromstring(amiem_resp)
+
+            #amiem_count = float(amiem_root('instantaneousDemand'))
+            for amie in amiem_root.iter('instantaneousDemand'):
+                amiem_count = float(amie.text)
+                LOGGER.info("kW: " + str(amiem_count/float(self.nem_oncor)))
+                self.setDriver('CC', amiem_count/float(self.nem_oncor))
+
+            #amiem_count1 = float(amiem_root.iter('instantaneousDemand'))
+            for amie1 in amiem_root.iter('instantaneousDemand'):
+                amiem_count1 = float(amie1.text)
+                LOGGER.info("WATTS: " + str(amiem_count1))
+                self.setDriver('GV1', amiem_count1/float(self.nem_oncor)*1000)
+
+            #ustdy_count = float(amiem_root.iter('currDayDelivered'))
+            for ustd in amiem_root.iter('currDayDelivered'):
+                ustdy_count = float(ustd.text)
+                LOGGER.info("kWh: " + str(ustdy_count))
+                self.setDriver('TPW', ustdy_count/float(self.nem_oncor))
+
+            #prevs_count = float(amiem_root.iter('previousDayDelivered'))
+            for prev in amiem_root.iter('previousDayDelivered'):
+                prevs_count = float(prev.text)
+                LOGGER.info("kWh: " + str(prevs_count))
+                self.setDriver('GV2', prevs_count/float(self.nem_oncor))
+
+            #sumss_count = float(amiem_root.iter('currSumDelivered')#.text)
+            for sums in amiem_root.iter('currSumDelivered'):
+                sumss_count = float(sums.text)
+                LOGGER.info("kWh: " + str(sumss_count))
+                self.setDriver('GV3', sumss_count/float(self.nem_oncor))
+
+    def delete(self):
+        LOGGER.info('Deleting AMI NEM, Net Energy Meter')
+
+    def stop(self):
+        LOGGER.debug('AMI NEM NodeServer stopped.')
+
+    def set_module_logs(self,level):
+        LOGGER.getLogger('urllib3').setLevel(level)
+
+    def check_params(self):
+        self.Notices.clear()
+        default_nem_oncor = "1000"
+
+        self.nem_oncor = self.Parameters.nem_oncor
+        if self.nem_oncor is None:
+            self.nem_oncor = default_nem_oncor
+            LOGGER.error('check_params: Devisor for Oncor Meters not defined in customParams, please add it.  Using {}'.format(default_nem_oncor))
+            self.nem_oncor = default_nem_oncor 
+
+    def query(self, command=None):
+        nodes = self.poly.getNodes()
+        for node in nodes:
+            nodes[node].reportDrivers()
+
+    def poll(self, flag):
+        nodes = self.poly.getNodes()
+        for node in nodes:
+            nodes[node].reportDrivers()
+            self.discover()
+        if 'longPoll' in flag:
+            LOGGER.debug('longPoll (controller)')
+        else:
+            LOGGER.debug('shortPoll (controller)')
+            
+
+    def remove_notices_all(self,command):
+        LOGGER.info('remove_notices_all: notices={}'.format(self.Notices))
+        # Remove all existing notices
+        self.Notices.clear()
+
+    id = 'controller'
+    
+    commands = {
+        'QUERY': query,
+        'DISCOVER': discover,
+        'REMOVE_NOTICES_ALL': remove_notices_all,
+    }
+    drivers = [
+        {'driver': 'ST', 'value': 1, 'uom': 2},
+        {'driver': 'GPV', 'value': 0, 'uom': 2},
+        {'driver': 'CC', 'value': 0, 'uom': 30},
+        {'driver': 'GV1', 'value': 0, 'uom': 73},
+        {'driver': 'TPW', 'value': 0, 'uom': 33},
+        {'driver': 'GV2', 'value': 0, 'uom': 33},
+        {'driver': 'GV3', 'value': 0, 'uom': 33},
+    ]
+
+if __name__ == "__main__":
+    try:
+        polyglot = udi_interface.Interface([AmiNemController])
+        polyglot.start()
+        control = AmiNemController(polyglot, 'controller', 'controller', 'AmiNemContoller')
+        polyglot.runForever()
+    except (KeyboardInterrupt, SystemExit):
+        LOGGER.warning("Received interrupt or exit...")
+        """
+        Catch SIGTERM or Control-C and exit cleanly.
+        """
+        polyglot.stop()
+    except Exception as err:
+        LOGGER.error('Excption: {0}'.format(err), exc_info=True)
+    sys.exit(0)
+    
