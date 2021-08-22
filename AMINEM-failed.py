@@ -64,7 +64,7 @@ This is where the real work happens.  When we get a shortPoll, increment the
 count, report the current count in GV0 and the current count multiplied by
 the user defined value in GV1. Then display a notice on the dashboard.
 '''
-    class isy(udi_interface.ISY):
+class isy(udi_interface.ISY):
     def __init__(self, poly,):
     self.isy = ISY(self.poly)
     isy = udi_interface.ISY()
