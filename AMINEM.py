@@ -119,14 +119,7 @@ if __name__ == "__main__":
         polyglot.setCustomParamsDoc()
         polyglot.updateProfile()
 
-        #isy = udi_interface.ISY('poly')
-        amiem_resp = isy.cmd("/rest/emeter")
-        LOGGER.info(amiem_resp)
-        amiem_count = 0
-        amiem_count1 = 0
-        ustdy_count = 0
-        prevs_count = 0
-        sumss_count = 0
+
 
         '''
         Here we create the device node.  In a real node server we may
