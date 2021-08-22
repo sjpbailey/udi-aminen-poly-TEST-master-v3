@@ -35,8 +35,8 @@ class AmiNemNode(udi_interface.Node):
             {'driver': 'GV3', 'value': 0, 'uom': 33},
             ]
 
-    def noop(self):
-        LOGGER.info('Discover not implemented')
+def noop(self):
+    LOGGER.info('Discover not implemented')
 
     commands = {'DISCOVER': noop}
 
