@@ -64,7 +64,7 @@ class AmiNemController(udi_interface.Node):
 
     class isy(udi_interface.ISY):
         def __init__(self, poly, isy):
-            self.isy = ISY()
+            self.isy = ISY(self.poly)
             self.poly = poly
             isy = udi_interface.ISY()
             #pass
