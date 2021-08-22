@@ -2,7 +2,7 @@
     "name": "AMINEM1",
     "docs": "https://github.com/sjpbailey/udi-aminen-poly-TEST-master-v3/README.md",
     "type": "python3",
-    "executable": "AMINEM.py",
+    "executable": "AmiNemController.py",
     "install": "install.sh",
     "description": "Net Energy Meter Utility Meter Smart Meter Landis+Gy & Oncor",
     "notice": "",
