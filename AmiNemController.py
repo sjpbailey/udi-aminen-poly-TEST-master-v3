@@ -1,29 +1,16 @@
 
 
-"""
-Get the polyinterface objects we need. 
-a different Python module which doesn't have the new LOG_HANDLER functionality
-"""
 import udi_interface
 import sys
 import time
 import urllib3
 import requests
-from requests.auth import HTTPBasicAuth
 import xml.etree.ElementTree as ET
-import re
 
-"""
-Some shortcuts for udi interface components
-
-- LOGGER: to create log entries
-- Custom: to access the custom data class
-- ISY:    to communicate directly with the ISY (not commonly used)
-"""
 LOGGER = udi_interface.LOGGER
 LOG_HANDLER = udi_interface.LOG_HANDLER
 Custom = udi_interface.Custom
-ISY = udi_interface.ISY # here it is declared atribute?
+ISY = udi_interface.ISY 
 
 # IF you want a different log format than the current default
 LOG_HANDLER.set_log_format('%(asctime)s %(threadName)-10s %(name)-18s %(levelname)-8s %(module)s:%(funcName)s: %(message)s')
@@ -37,13 +24,9 @@ class AmiNemController(udi_interface.Node):
         self.Parameters = Custom(polyglot, 'customparams')
         self.Notices = Custom(polyglot, 'notices')
         self.poly.subscribe(self.poly.START, self.start, address)
-        #self.poly.subscribe(self.poly.LOGLEVEL, self.handleLevelChange)
         self.poly.subscribe(self.poly.CUSTOMPARAMS, self.parameterHandler)
         self.poly.subscribe(self.poly.POLL, self.poll)
-        # Tell the interface we have subscribed to all the events we need.
-        # Once we call ready(), the interface will start publishing data.
         self.poly.ready()
-        # Tell the interface we exist.  
         self.poly.addNode(self)
         # Attributes
         self.user = None
@@ -165,7 +148,7 @@ if __name__ == "__main__":
     try:
         polyglot = udi_interface.Interface([AmiNemController])
         polyglot.start()
-        control = AmiNemController(polyglot, 'controller', 'controller', 'AmiNemContoller') # 'poly', 'isy', 
+        control = AmiNemController(polyglot, 'controller', 'controller', 'AmiNemContoller')
         polyglot.runForever()
     except (KeyboardInterrupt, SystemExit):
         LOGGER.warning("Received interrupt or exit...")
