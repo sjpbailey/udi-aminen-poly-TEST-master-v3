@@ -12,6 +12,7 @@ import xml.etree.ElementTree as ET
 
 LOGGER = udi_interface.LOGGER
 Custom = udi_interface.Custom
+ISY = udi_interface.ISY
 polyglot = None
 Parameters = None
 n_queue = []
@@ -71,6 +72,7 @@ the user defined value in GV1. Then display a notice on the dashboard.
 def poll(polltype):
     global count
     global Parameters
+    self.isy = ISY(self.poly)
 
     if 'shortPoll' in polltype:
         if Parameters['multiplier'] is not None:
