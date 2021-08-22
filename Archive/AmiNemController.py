@@ -51,6 +51,7 @@ class AmiNemController(udi_interface.Node):
         self.isy_ip = None
         self.nem_oncor = None
         self.isy = ISY(self.poly)
+        #self.poly = poly
 
     def parameterHandler(self, params):
         self.Parameters.load(params)
@@ -63,8 +64,12 @@ class AmiNemController(udi_interface.Node):
 
     def discover(self, *args, **kwargs):
         if self.nem_oncor is not None:
+            #amiem_url = "http://" + self.isy_ip + "/rest/emeter"
+            #isy = udi_interface.ISY('poly')
             amiem_resp = self.isy.cmd("/rest/emeter")
             
+            #self.setDriver('GPV', 1)
+
             amiem_count = 0
             amiem_count1 = 0
             ustdy_count = 0
@@ -116,7 +121,7 @@ class AmiNemController(udi_interface.Node):
     def check_params(self):
         self.Notices.clear()
         
-        default_nem_oncor = ""
+        default_nem_oncor = "1000"
 
         self.nem_oncor = self.Parameters.nem_oncor
         if self.nem_oncor is None:
@@ -135,14 +140,15 @@ class AmiNemController(udi_interface.Node):
             nodes[node].reportDrivers()
 
     def poll(self, flag):
-        nodes = self.poly.getNodes()
-        for node in nodes:
-            nodes[node].reportDrivers()
-            self.discover()
-        if 'longPoll' in flag:
-            LOGGER.debug('longPoll (controller)')
-        else:
-            LOGGER.debug('shortPoll (controller)')
+        pass
+        #nodes = self.poly.getNodes()
+        #for node in nodes:
+        #    nodes[node].reportDrivers()
+        #    self.discover()
+        #if 'longPoll' in flag:
+        #    LOGGER.debug('longPoll (controller)')
+        #else:
+        #    LOGGER.debug('shortPoll (controller)')
             
 
     def remove_notices_all(self,command):
