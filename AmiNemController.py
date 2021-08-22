@@ -57,17 +57,10 @@ class AmiNemController(udi_interface.Node):
         self.Parameters.load(params)
         LOGGER.debug('Loading parameters now')
         self.check_params()    
-    
+
     def start(self):
         #self.poly.updateProfile()
         self.discover()
-
-    """class isy(udi_interface.ISY):
-        def __init__(self, poly, isy):
-            self.isy = ISY(self.poly)
-            self.poly = poly
-            isy = udi_interface.ISY()
-            #pass"""
 
     def discover(self, *args, **kwargs):
         if self.nem_oncor is not None:
@@ -129,7 +122,6 @@ class AmiNemController(udi_interface.Node):
         self.Notices.clear()
         
         default_nem_oncor = "1000"
-    #### All to be removed except Ip address    
 
         self.nem_oncor = self.Parameters.nem_oncor
         if self.nem_oncor is None:
