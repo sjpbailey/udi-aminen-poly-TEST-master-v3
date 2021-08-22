@@ -63,25 +63,11 @@ class AmiNemController(udi_interface.Node):
         self.discover()
 
     class isy(udi_interface.ISY):
-        def __init__(self, poly,):
-            self.isy = ISY(self.poly)
+        def __init__(self, poly, isy):
+            self.isy = ISY()
+            self.poly = poly
             isy = udi_interface.ISY()
             #pass
-
-    #### no longer need auth is from ISY.cmd(COMMAND?)
-    """def get_request(self, url):
-        try:
-            r = requests.get(url, auth=HTTPBasicAuth(self.user, self.password))
-            if r.status_code == requests.codes.ok:
-                LOGGER.info(r.content)
-
-                return r.content
-            else:
-                LOGGER.error("ISY-Inventory.get_request:  " + r.content)
-                return None
-
-        except requests.exceptions.RequestException as e:
-            LOGGER.error("Error: " + str(e))"""    
 
     def discover(self, *args, **kwargs):
         if self.nem_oncor is not None:
