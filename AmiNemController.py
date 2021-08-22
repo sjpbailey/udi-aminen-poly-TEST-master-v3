@@ -140,15 +140,14 @@ class AmiNemController(udi_interface.Node):
             nodes[node].reportDrivers()
 
     def poll(self, flag):
-        pass
-        #nodes = self.poly.getNodes()
-        #for node in nodes:
-        #    nodes[node].reportDrivers()
-        #    self.discover()
-        #if 'longPoll' in flag:
-        #    LOGGER.debug('longPoll (controller)')
-        #else:
-        #    LOGGER.debug('shortPoll (controller)')
+        #pass
+        nodes = self.poly.getNodes()
+        for node in nodes:
+            nodes[node].reportDrivers()
+        if 'longPoll' in flag:
+            LOGGER.debug('longPoll (controller)')
+        else:
+            LOGGER.debug('shortPoll (controller)')
             
 
     def remove_notices_all(self,command):
