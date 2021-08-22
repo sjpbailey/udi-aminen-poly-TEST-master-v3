@@ -64,12 +64,8 @@ class AmiNemController(udi_interface.Node):
 
     def discover(self, *args, **kwargs):
         if self.nem_oncor is not None:
-            #amiem_url = "http://" + self.isy_ip + "/rest/emeter"
-            #isy = udi_interface.ISY('poly')
             amiem_resp = self.isy.cmd("/rest/emeter")
             
-            #self.setDriver('GPV', 1)
-
             amiem_count = 0
             amiem_count1 = 0
             ustdy_count = 0
@@ -79,31 +75,31 @@ class AmiNemController(udi_interface.Node):
         if amiem_resp is not None:
             amiem_root = ET.fromstring(amiem_resp)
 
-            #amiem_count = float(amiem_root('instantaneousDemand'))
+            # Instantaneous Demand in kW
             for amie in amiem_root.iter('instantaneousDemand'):
                 amiem_count = float(amie.text)
                 LOGGER.info("kW: " + str(amiem_count/float(self.nem_oncor)))
                 self.setDriver('CC', amiem_count/float(self.nem_oncor))
 
-            #amiem_count1 = float(amiem_root.iter('instantaneousDemand'))
+            # Instantaneous Demand in Watts
             for amie1 in amiem_root.iter('instantaneousDemand'):
                 amiem_count1 = float(amie1.text)
                 LOGGER.info("WATTS: " + str(amiem_count1))
                 self.setDriver('GV1', amiem_count1/float(self.nem_oncor)*1000)
 
-            #ustdy_count = float(amiem_root.iter('currDayDelivered'))
+            # Current Delivered Today kWh
             for ustd in amiem_root.iter('currDayDelivered'):
                 ustdy_count = float(ustd.text)
                 LOGGER.info("kWh: " + str(ustdy_count))
                 self.setDriver('TPW', ustdy_count/float(self.nem_oncor))
 
-            #prevs_count = float(amiem_root.iter('previousDayDelivered'))
+            # Previous Delivered Yesterday kWh
             for prev in amiem_root.iter('previousDayDelivered'):
                 prevs_count = float(prev.text)
                 LOGGER.info("kWh: " + str(prevs_count))
                 self.setDriver('GV2', prevs_count/float(self.nem_oncor))
 
-            #sumss_count = float(amiem_root.iter('currSumDelivered')#.text)
+            # Current Summary Delivered kWh
             for sums in amiem_root.iter('currSumDelivered'):
                 sumss_count = float(sums.text)
                 LOGGER.info("kWh: " + str(sumss_count))
@@ -121,7 +117,7 @@ class AmiNemController(udi_interface.Node):
     def check_params(self):
         self.Notices.clear()
         
-        default_nem_oncor = "1000"
+        default_nem_oncor = ""
 
         self.nem_oncor = self.Parameters.nem_oncor
         if self.nem_oncor is None:
@@ -130,9 +126,8 @@ class AmiNemController(udi_interface.Node):
             self.nem_oncor = default_nem_oncor 
         
         # Add a notice if they need to change the user/password from the default.
-        #if self.nem_oncor == default_nem_oncor:
-            #self.Notices['auth'] = 'Please set your proper multiplyer currently set for Landis+Gy at 1000 set to 10000 for Oncor in configuration page'
-            #pass
+        if self.nem_oncor == default_nem_oncor:
+            self.Notices['auth'] = 'Please set your proper multiplyer currently set for Landis+Gy at 1000 set to 10000 for Oncor in configuration page'
 
     def query(self, command=None):
         nodes = self.poly.getNodes()
@@ -140,15 +135,15 @@ class AmiNemController(udi_interface.Node):
             nodes[node].reportDrivers()
 
     def poll(self, flag):
-        pass
-        #nodes = self.poly.getNodes()
-        #for node in nodes:
-        #    nodes[node].reportDrivers()
-        #    self.discover()
-        #if 'longPoll' in flag:
-        #    LOGGER.debug('longPoll (controller)')
-        #else:
-        #    LOGGER.debug('shortPoll (controller)')
+        #pass
+        nodes = self.poly.getNodes()
+        for node in nodes:
+            nodes[node].reportDrivers()
+            self.discover()
+        if 'longPoll' in flag:
+            LOGGER.debug('longPoll (controller)')
+        else:
+            LOGGER.debug('shortPoll (controller)')
             
 
     def remove_notices_all(self,command):
@@ -177,7 +172,7 @@ if __name__ == "__main__":
     try:
         polyglot = udi_interface.Interface([AmiNemController])
         polyglot.start()
-        control = AmiNemController(polyglot, 'controller', 'controller', 'AmiNemContoller') # 'poly', 'isy', 
+        control = AmiNemController(polyglot, 'controller', 'controller', 'AmiNemContoller')
         polyglot.runForever()
     except (KeyboardInterrupt, SystemExit):
         LOGGER.warning("Received interrupt or exit...")
