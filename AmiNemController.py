@@ -116,7 +116,7 @@ class AmiNemController(udi_interface.Node):
     def check_params(self):
         self.Notices.clear()
         
-        default_nem_oncor = ""
+        default_nem_oncor = "1000"
 
         self.nem_oncor = self.Parameters.nem_oncor
         if self.nem_oncor is None:
