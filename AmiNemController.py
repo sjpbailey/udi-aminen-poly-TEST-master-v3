@@ -192,34 +192,16 @@ class AmiNemController(udi_interface.Node):
 
 if __name__ == "__main__":
     try:
-        polyglot = udi_interface.Interface([])
+        polyglot = udi_interface.Interface([AmiNemController])
         polyglot.start()
-
-        Parameters = Custom(polyglot, 'customparams')
-
-        # subscribe to the events we want
-        polyglot.subscribe(polyglot.CUSTOMPARAMS, parameterHandler)
-        polyglot.subscribe(polyglot.ADDNODEDONE, node_queue)
-        polyglot.subscribe(polyglot.STOP, stop)
-        polyglot.subscribe(polyglot.POLL, poll)
-
-        # Start running
-        polyglot.ready()
-        polyglot.setCustomParamsDoc()
-        polyglot.updateProfile()
-
-        '''
-        Here we create the device node.  In a real node server we may
-        want to try and discover the device or devices and create nodes
-        based on what we find.  Here, we simply create our node and wait
-        for the add to complete.
-        '''
-        node = AmiNemController(polyglot, 'my_address', 'my_address', 'NetEnergyMeter')
-        polyglot.addNode(node)
-        wait_for_node_event()
-
-        # Just sit and wait for events
+        control = AmiNemController(polyglot, 'controller', 'controller', 'AmiNemContoller') # 'poly', 'isy', 
         polyglot.runForever()
     except (KeyboardInterrupt, SystemExit):
-        sys.exit(0)
-        
+        LOGGER.warning("Received interrupt or exit...")
+        """
+        Catch SIGTERM or Control-C and exit cleanly.
+        """
+        polyglot.stop()
+    except Exception as err:
+        LOGGER.error('Excption: {0}'.format(err), exc_info=True)
+    sys.exit(0)
