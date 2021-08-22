@@ -19,6 +19,8 @@
       <sends />
       <accepts>
         <cmd id="DISCOVER" />
+        <cmd id="QUERY" />
+        <cmd id="REMOVE_NOTICES_ALL" />
       </accepts>
     </cmds>
   </nodeDef>
