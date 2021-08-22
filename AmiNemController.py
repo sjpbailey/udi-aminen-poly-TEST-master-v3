@@ -50,8 +50,8 @@ class AmiNemController(udi_interface.Node):
         self.password = None
         self.isy_ip = None
         self.nem_oncor = None
-        #self.isy = ISY(self.poly)
-        #self.poly = poly
+        self.isy = ISY(self.poly)
+        self.poly = poly
 
     def parameterHandler(self, params):
         self.Parameters.load(params)
@@ -62,12 +62,12 @@ class AmiNemController(udi_interface.Node):
         #self.poly.updateProfile()
         self.discover()
 
-    class isy(udi_interface.ISY):
+    """class isy(udi_interface.ISY):
         def __init__(self, poly, isy):
             self.isy = ISY(self.poly)
             self.poly = poly
             isy = udi_interface.ISY()
-            #pass
+            #pass"""
 
     def discover(self, *args, **kwargs):
         if self.nem_oncor is not None:
