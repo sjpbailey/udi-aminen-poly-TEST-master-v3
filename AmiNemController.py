@@ -51,7 +51,7 @@ class AmiNemController(udi_interface.Node):
         self.isy_ip = None
         self.nem_oncor = None
         self.isy = ISY(self.poly)
-        self.poly = poly
+        #self.poly = poly
 
     def parameterHandler(self, params):
         self.Parameters.load(params)
@@ -90,26 +90,31 @@ class AmiNemController(udi_interface.Node):
             for amie in amiem_root.iter('instantaneousDemand'):
                 amiem_count = float(amie.text)
                 LOGGER.info("kW: " + str(amiem_count/float(self.nem_oncor)))
+                self.setDriver('CC', amiem_count/float(mult))
 
             #amiem_count1 = float(amiem_root.iter('instantaneousDemand'))
             for amie1 in amiem_root.iter('instantaneousDemand'):
                 amiem_count1 = float(amie1.text)
                 LOGGER.info("WATTS: " + str(amiem_count1))
+                self.setDriver('GV1', amiem_count1/float(mult)*1000)
 
             #ustdy_count = float(amiem_root.iter('currDayDelivered'))
             for ustd in amiem_root.iter('currDayDelivered'):
                 ustdy_count = float(ustd.text)
                 LOGGER.info("kWh: " + str(ustdy_count))
+                self.setDriver('TPW', ustdy_count/float(mult))
 
             #prevs_count = float(amiem_root.iter('previousDayDelivered'))
             for prev in amiem_root.iter('previousDayDelivered'):
                 prevs_count = float(prev.text)
                 LOGGER.info("kWh: " + str(prevs_count))
+                self.setDriver('GV2', prevs_count/float(mult))
 
             #sumss_count = float(amiem_root.iter('currSumDelivered')#.text)
             for sums in amiem_root.iter('currSumDelivered'):
                 sumss_count = float(sums.text)
                 LOGGER.info("kWh: " + str(sumss_count))
+                self.setDriver('GV3', sumss_count/float(mult))
 
     def delete(self):
         LOGGER.info('Deleting AMI NEM, Net Energy Meter')
