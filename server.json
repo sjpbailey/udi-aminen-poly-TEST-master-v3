@@ -11,7 +11,7 @@
 	"logLevel": "INFO",
     "profile_version": "1.0.0",
 	"customParams": {
-		"multiplier": ""
+		"multiplier": "1000"
 	},
     "credits": [
     	{

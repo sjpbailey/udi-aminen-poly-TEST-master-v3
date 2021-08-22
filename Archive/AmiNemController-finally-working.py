@@ -51,7 +51,6 @@ class AmiNemController(udi_interface.Node):
         self.isy_ip = None
         self.nem_oncor = None
         self.isy = ISY(self.poly)
-        #self.poly = poly
 
     def parameterHandler(self, params):
         self.Parameters.load(params)
@@ -75,31 +74,31 @@ class AmiNemController(udi_interface.Node):
         if amiem_resp is not None:
             amiem_root = ET.fromstring(amiem_resp)
 
-            # Instantaneous Demand in kW
+            #amiem_count = float(amiem_root('instantaneousDemand'))
             for amie in amiem_root.iter('instantaneousDemand'):
                 amiem_count = float(amie.text)
                 LOGGER.info("kW: " + str(amiem_count/float(self.nem_oncor)))
                 self.setDriver('CC', amiem_count/float(self.nem_oncor))
 
-            # Instantaneous Demand in Watts
+            #amiem_count1 = float(amiem_root.iter('instantaneousDemand'))
             for amie1 in amiem_root.iter('instantaneousDemand'):
                 amiem_count1 = float(amie1.text)
                 LOGGER.info("WATTS: " + str(amiem_count1))
                 self.setDriver('GV1', amiem_count1/float(self.nem_oncor)*1000)
 
-            # Current Delivered Today kWh
+            #ustdy_count = float(amiem_root.iter('currDayDelivered'))
             for ustd in amiem_root.iter('currDayDelivered'):
                 ustdy_count = float(ustd.text)
                 LOGGER.info("kWh: " + str(ustdy_count))
                 self.setDriver('TPW', ustdy_count/float(self.nem_oncor))
 
-            # Previous Delivered Yesterday kWh
+            #prevs_count = float(amiem_root.iter('previousDayDelivered'))
             for prev in amiem_root.iter('previousDayDelivered'):
                 prevs_count = float(prev.text)
                 LOGGER.info("kWh: " + str(prevs_count))
                 self.setDriver('GV2', prevs_count/float(self.nem_oncor))
 
-            # Current Summary Delivered kWh
+            #sumss_count = float(amiem_root.iter('currSumDelivered')#.text)
             for sums in amiem_root.iter('currSumDelivered'):
                 sumss_count = float(sums.text)
                 LOGGER.info("kWh: " + str(sumss_count))
@@ -117,7 +116,7 @@ class AmiNemController(udi_interface.Node):
     def check_params(self):
         self.Notices.clear()
         
-        default_nem_oncor = ""
+        default_nem_oncor = "1000"
 
         self.nem_oncor = self.Parameters.nem_oncor
         if self.nem_oncor is None:
@@ -126,8 +125,9 @@ class AmiNemController(udi_interface.Node):
             self.nem_oncor = default_nem_oncor 
         
         # Add a notice if they need to change the user/password from the default.
-        if self.nem_oncor == default_nem_oncor:
-            self.Notices['auth'] = 'Please set your proper multiplyer currently set for Landis+Gy at 1000 set to 10000 for Oncor in configuration page'
+        #if self.nem_oncor == default_nem_oncor:
+            #self.Notices['auth'] = 'Please set your proper multiplyer currently set for Landis+Gy at 1000 set to 10000 for Oncor in configuration page'
+            #pass
 
     def query(self, command=None):
         nodes = self.poly.getNodes()
@@ -135,7 +135,6 @@ class AmiNemController(udi_interface.Node):
             nodes[node].reportDrivers()
 
     def poll(self, flag):
-        #pass
         nodes = self.poly.getNodes()
         for node in nodes:
             nodes[node].reportDrivers()
@@ -172,7 +171,7 @@ if __name__ == "__main__":
     try:
         polyglot = udi_interface.Interface([AmiNemController])
         polyglot.start()
-        control = AmiNemController(polyglot, 'controller', 'controller', 'AmiNemContoller')
+        control = AmiNemController(polyglot, 'controller', 'controller', 'AmiNemContoller') # 'poly', 'isy', 
         polyglot.runForever()
     except (KeyboardInterrupt, SystemExit):
         LOGGER.warning("Received interrupt or exit...")

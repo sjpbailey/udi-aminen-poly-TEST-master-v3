@@ -115,7 +115,6 @@ class AmiNemController(udi_interface.Node):
 
     def check_params(self):
         self.Notices.clear()
-        
         default_nem_oncor = "1000"
 
         self.nem_oncor = self.Parameters.nem_oncor
@@ -123,11 +122,6 @@ class AmiNemController(udi_interface.Node):
             self.nem_oncor = default_nem_oncor
             LOGGER.error('check_params: Devisor for Oncor Meters not defined in customParams, please add it.  Using {}'.format(default_nem_oncor))
             self.nem_oncor = default_nem_oncor 
-        
-        # Add a notice if they need to change the user/password from the default.
-        #if self.nem_oncor == default_nem_oncor:
-            #self.Notices['auth'] = 'Please set your proper multiplyer currently set for Landis+Gy at 1000 set to 10000 for Oncor in configuration page'
-            #pass
 
     def query(self, command=None):
         nodes = self.poly.getNodes()
