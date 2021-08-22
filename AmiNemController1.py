@@ -72,7 +72,7 @@ the user defined value in GV1. Then display a notice on the dashboard.
 def poll(polltype):
     global count
     global Parameters
-    self.isy = ISY(self.poly)
+    isy = ISY(self.poly)
 
     if 'shortPoll' in polltype:
         if Parameters['multiplier'] is not None:
@@ -80,7 +80,7 @@ def poll(polltype):
         else:
             mult = 1000
 
-        amiem_resp = self.isy.cmd("/rest/emeter")
+        amiem_resp = isy.cmd("/rest/emeter")
         amiem_count = 0
         amiem_count1 = 0
         ustdy_count = 0
