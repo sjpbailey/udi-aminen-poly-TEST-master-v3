@@ -1,6 +1,6 @@
 ND-controller-NAME = Net Energy Meter
 ND-controller-ICON = Electricity
-CMD-ctl-DISCOVER-NAME = Re-Discover
+#CMD-ctl-DISCOVER-NAME = Re-Discover
 CMD-ctl-QUERY-NAME = Query
 CMD-ctl-REMOVE_NOTICES_ALL-NAME = Remove All Notices
 #ST-ctl-ST-NAME = NodeServer Online

@@ -12,7 +12,6 @@ LOG_HANDLER = udi_interface.LOG_HANDLER
 Custom = udi_interface.Custom
 ISY = udi_interface.ISY 
 
-# IF you want a different log format than the current default
 LOG_HANDLER.set_log_format('%(asctime)s %(threadName)-10s %(name)-18s %(levelname)-8s %(module)s:%(funcName)s: %(message)s')
 
 class AmiNemController(udi_interface.Node):
@@ -45,14 +44,12 @@ class AmiNemController(udi_interface.Node):
         self.discover()
 
     def discover(self, *args, **kwargs):
-        if self.nem_oncor is not None:
-            amiem_resp = self.isy.cmd("/rest/emeter")
-            
-            amiem_count = 0
-            amiem_count1 = 0
-            ustdy_count = 0
-            prevs_count = 0
-            sumss_count = 0
+        amiem_resp = self.isy.cmd("/rest/emeter")
+        amiem_count = 0
+        amiem_count1 = 0
+        ustdy_count = 0
+        prevs_count = 0
+        sumss_count = 0
 
         if amiem_resp is not None:
             amiem_root = ET.fromstring(amiem_resp)
@@ -159,3 +156,4 @@ if __name__ == "__main__":
     except Exception as err:
         LOGGER.error('Excption: {0}'.format(err), exc_info=True)
     sys.exit(0)
+    
